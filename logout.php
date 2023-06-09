@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $serveur = "localhost";
 $utilisateur_db = "root";
 $mot_de_passe_db = "root";
@@ -15,12 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $requete->bindParam(':heure_fin', $heure_fin_pointage);
     $requete->bindParam(':utilisateur_id', $utilisateur_id);
     $requete->bindParam(':date_pointage', $date_pointage);
-    $requete->execute();
-
-    echo "Déconnexion réussie. Heure de fin de pointage enregistrée.";
+    
+    if ($requete->execute()) {
+        $_SESSION['logout_message'] = "Déconnexion réussie. Heure de fin de pointage enregistrée.";
+    } else {
+        $_SESSION['logout_message'] = "Une erreur s'est produite lors de la déconnexion.";
+    }
+    
+    // Redirection vers login.php
+    header("Location: login.php");
+    exit();
+    
 
     $connexion = null;
-
-    include "login.php";
 }
+
 ?>
