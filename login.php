@@ -4,7 +4,7 @@ session_start();
 require_once 'config.php';
 
 // Connexion à la base de données
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($dbservername, $dbusername, $dbpassword, $dbname);
 
 // Vérifier si la connexion à la base de données a réussi
 if ($conn->connect_error) {

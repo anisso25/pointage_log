@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Connexion à la base de données
     require_once 'config.php';
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($dbservername, $dbusername, $dbpassword, $dbname);
 
     // Vérifier si la connexion à la base de données a réussi
     if ($conn->connect_error) {

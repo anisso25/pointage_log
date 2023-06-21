@@ -3,7 +3,7 @@ session_start();
 
 require_once 'config.php';
 
-$connexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+$connexion = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $utilisateur_id = $_POST['utilisateur_id'];
