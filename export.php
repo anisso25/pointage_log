@@ -11,10 +11,10 @@
         <h1>Exportation des données</h1>
         <form action="export.php" method="POST">
             <label for="start_date">Date de début :</label>
-            <input type="date" id="start_date" name="start_date" required>
+            <input type="date" id="start_date" name="start_date" required value="<?php echo date("d-m-Y");?>">
 
             <label for="end_date">Date de fin :</label>
-            <input type="date" id="end_date" name="end_date" required>
+            <input type="date" id="end_date" name="end_date" required value="<?php echo date("d-m-Y");?>">
 
             <input type="submit" value="Exporter">
         </form>
@@ -37,7 +37,7 @@
             $selectQuery = "SELECT hp.id, u.nom AS nom_utilisateur, hp.date_pointage, hp.heure_pointage, hp.heure_fin_pointage
                             FROM historique_pointages hp
                             JOIN utilisateurs u ON hp.utilisateur_id = u.id
-                            WHERE hp.date_pointage BETWEEN '$start_date' AND '$end_date'";
+                            WHERE hp.date_pointage BETWEEN '$start_date' AND '$end_date' ORDER BY hp.date_pointage";
 
             $result = $conn->query($selectQuery);
 
@@ -96,7 +96,6 @@
             $conn->close();
         }
         ?>
-
     </div>
 </body>
 
