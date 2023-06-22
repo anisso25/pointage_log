@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Exportation des données</title>
+    <link rel="stylesheet" type="text/css" href="style3.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Exportation des données</h1>
+        <form>
+            <label for="start_date">Date de début :</label>
+            <input type="date" id="start_date" name="start_date" required >
+
+            <label for="end_date">Date de fin :</label>
+            <input type="date" id="end_date" name="end_date" required >
+
+            <input type="button" value="Exporter" onclick="exportData()">
+        </form>
+
+        <div id="exportResults"></div>
+
+        <script>
+            function exportData() {
+                var startDate = document.getElementById("start_date").value;
+                var endDate = document.getElementById("end_date").value;
+
+                // Construction de l'URL pour la requête AJAX
+                var url = "export.php?start_date=" + encodeURIComponent(startDate) + "&end_date=" + encodeURIComponent(endDate);
+
+                // Requête AJAX pour récupérer les données exportées
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var exportData = JSON.parse(xhr.responseText);
+
+                            if (exportData.length > 0) {
+                                var tableHtml = '<table><tr><th>ID</th><th>Nom utilisateur</th><th>Date</th><th>Heure début</th><th>Heure fin</th><th>Durée</th></tr>';
+                                for (var i = 0; i < exportData.length; i++) {
+                                    var row = exportData[i];
+                                    tableHtml += '<tr><td>' + row.id + '</td><td>' + row.nom_utilisateur + '</td><td>' + row.date_pointage + '</td><td>' + row.heure_pointage + '</td><td>' + row.heure_fin_pointage + '</td><td>' + row.duree + '</td></tr>';
+                                }
+                                tableHtml += '</table>';
+
+                                // Créer un lien de téléchargement en haut du tableau
+                                var csvContent = "data:text/csv;charset=utf-8,ID,\"Nom utilisateur\",Date,\"Heure début\",\"Heure fin\",Durée\n";
+                                for (var i = 0; i < exportData.length; i++) {
+                                    var row = exportData[i];
+                                    csvContent += row.id + ',"' + row.nom_utilisateur + '",' + row.date_pointage + ',' + row.heure_pointage + ',' + row.heure_fin_pointage + ',' + row.duree + '\n';
+                                }
+                                var encodedUri = encodeURI(csvContent);
+                                var downloadLinkTop = document.createElement('a');
+                                downloadLinkTop.href = encodedUri;
+                                downloadLinkTop.download = 'export.csv';
+                                downloadLinkTop.innerHTML = 'Télécharger le fichier CSV';
+                                document.getElementById("exportResults").appendChild(downloadLinkTop);
+
+                                // Afficher le tableau des données
+                                document.getElementById("exportResults").innerHTML += tableHtml;
+
+                                // Créer un lien de téléchargement en bas du tableau
+                                var downloadLinkBottom = document.createElement('a');
+                                downloadLinkBottom.href = encodedUri;
+                                downloadLinkBottom.download = 'export.csv';
+                                downloadLinkBottom.innerHTML = 'Télécharger le fichier CSV';
+                                document.body.appendChild(downloadLinkBottom);
+                            } else {
+                                document.getElementById("exportResults").innerHTML = "<p>Aucune donnée disponible pour l'exportation.</p>";
+                            }
+                        } else {
+                            document.getElementById("exportResults").innerHTML = "<p>Erreur lors de l'exportation des données.</p>";
+                        }
+                    }
+                };
+
+                xhr.open("GET", url, true);
+                xhr.send();
+            }
+        </script>
+    </div>
+</body>
+
+</html>
