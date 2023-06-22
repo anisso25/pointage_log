@@ -34,55 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 
 <head>
-    <title>Ajouter un utilisateur</title>
-    <style>
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
-
-    .container {
-        max-width: 960px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    h2 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    label {
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-        padding: 5px;
-        margin-bottom: 10px;
-        width: 300px;
-    }
-
-    input[type="submit"] {
-        padding: 10px 20px;
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-    </style>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
@@ -90,13 +43,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Ajouter un utilisateur</h2>
 
         <form method="POST" action="ajouter.php">
-            <label for="username">Nom d'utilisateur:</label>
+            <label for="username">Nom d'utilisateur</label>
             <input type="text" id="username" name="username" required><br>
 
-            <label for="password">Mot de passe:</label>
+            <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" required><br>
 
-            <label for="nom">Nom:</label>
+            <label for="nom">Nom prénom</label>
             <input type="text" id="nom" name="nom" required><br>
 
             <input type="submit" value="Ajouter">
