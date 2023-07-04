@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     }
 
     // Construction de la requête SQL en fonction des dates
-    $selectQuery = "SELECT hp.id, u.nom AS nom_utilisateur, hp.date_pointage, hp.heure_pointage, hp.heure_fin_pointage
+    $selectQuery = "SELECT hp.id, u.nom AS nom_utilisateur, u.username AS username, hp.date_pointage, hp.heure_pointage, hp.heure_fin_pointage
                     FROM historique_pointages hp
                     JOIN utilisateurs u ON hp.utilisateur_id = u.id
                     WHERE hp.date_pointage BETWEEN '$start_date' AND '$end_date' ORDER BY hp.date_pointage";
@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             $exportData[] = array(
                 'id' => $row['id'],
                 'nom_utilisateur' => $row['nom_utilisateur'],
+                'username' => $row['username'],
                 'date_pointage' => $row['date_pointage'],
                 'heure_pointage' => $row['heure_pointage'],
                 'heure_fin_pointage' => $row['heure_fin_pointage'],
