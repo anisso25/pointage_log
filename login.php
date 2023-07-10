@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $utilisateur_id = $row['id'];
         $nom = $row['nom'];
         $date = date("Y-m-d");
-        $heure = date("H:i:s");
+        $heure = date("H:i:s", time()); // Utilisation de l'heure du serveur
 
         // Enregistrement du pointage dans la table "historique_pointages"
         $insertHistoriqueQuery = "INSERT INTO historique_pointages (utilisateur_id, date_pointage, heure_pointage) VALUES ('$utilisateur_id', '$date', '$heure')";
@@ -54,39 +54,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Fermeture de la connexion à la base de données
 $conn->close();
 ?>
-
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-
-<body>
-    <h1>Login</h1>
-    <div id="login-form">
-        <?php
-        if (isset($_SESSION['error_message'])) {
-            echo '<p class="error-message">' . $_SESSION['error_message'] . '</p>';
-            unset($_SESSION['error_message']); // Supprimer le message d'erreur après l'avoir affiché
-        }
-
-        // Afficher le message de déconnexion s'il est présent
-        if (isset($_SESSION['logout_message'])) {
-            echo '<p>' . $_SESSION['logout_message'] . '</p>';
-            unset($_SESSION['logout_message']); // Supprimer le message de session après l'avoir affiché
-        }
-        
-        ?>
-        <form action="login.php" method="POST">
-            <label for="username">Nom d'utilisateur :</label>
-            <input type="text" name="username" id="username" required>
-            <label for="password">Mot de passe :</label>
-            <input type="password" name="password" id="password" required>
-            <input type="submit" value="Se connecter">
-        </form>
-    </div>
-</body>
-
-</html>
